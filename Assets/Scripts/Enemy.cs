@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -31,7 +29,7 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         OnEnemyDeath?.Invoke(pointsForDestruction);
-        Disable?.Invoke(this);
+        Release();
     }
 
     private void Release() => Disable?.Invoke(this);

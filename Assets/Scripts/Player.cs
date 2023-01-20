@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private int movementSpeed = 1;
     [SerializeField] private int damageOtherOnCollision = 1;
+    [SerializeField] private float verticalBounds = 4.5f;
 
     private Rigidbody2D rb;
     private Vector2 movementDirection;
@@ -49,7 +50,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + Time.fixedDeltaTime * movementSpeed * movementDirection);
+        Vector3 nextPosition = rb.position + Time.fixedDeltaTime * movementSpeed * movementDirection;
+        nextPosition.y = Mathf.Clamp(nextPosition.y, -verticalBounds, verticalBounds);
+        rb.MovePosition(nextPosition);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
