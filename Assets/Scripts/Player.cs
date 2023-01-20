@@ -8,17 +8,14 @@ public class Player : MonoBehaviour
     [SerializeField] private int movementSpeed = 1;
     [SerializeField] private int damageOtherOnCollision = 1;
 
-    private PlayerControls playerControls;
     private Rigidbody2D rb;
-
     private Vector2 movementDirection;
 
     private void Awake()
     {
-        playerControls = new PlayerControls();
-        playerControls.Player.Move.performed += ReadMovement;
-        playerControls.Player.Move.canceled += ReadMovement;
-        playerControls.Enable();
+        InputManager.Instance.PlayerControls.Player.Move.performed += ReadMovement;
+        InputManager.Instance.PlayerControls.Player.Move.canceled += ReadMovement;
+        
         rb = GetComponent<Rigidbody2D>();
     }
 
