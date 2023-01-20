@@ -9,17 +9,25 @@ public class EnemySpawner : MonoBehaviour
 
     private Coroutine spawnRoutine;
 
-    private void Start()
-    {
-        spawnRoutine = StartCoroutine(SpawnRoutine());
-    }
-
     private IEnumerator SpawnRoutine()
     {
         while (allowSpawning)
         {
             yield return new WaitForSeconds(2f);
             Instantiate(enemyPrefab, GetRandomSpawnPoint(), Quaternion.identity);
+        }
+    }
+
+    public void BeginSpawning()
+    {
+        spawnRoutine = StartCoroutine(SpawnRoutine());
+    }
+
+    public void StopSpawning()
+    {
+        if (spawnRoutine != null)
+        {
+            StopCoroutine(spawnRoutine);
         }
     }
 

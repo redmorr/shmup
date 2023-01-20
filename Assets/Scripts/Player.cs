@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,9 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 movementDirection;
+    private Health health;
+
+    public static event Action OnPlayerDeath;
 
     private void Awake()
     {
@@ -17,12 +21,19 @@ public class Player : MonoBehaviour
         InputManager.Instance.PlayerControls.Player.Move.canceled += ReadMovement;
         
         rb = GetComponent<Rigidbody2D>();
+
+        health = GetComponent<Health>();
+        health.OnHealthDepleted += Die;
+    }
+
+    private void Die()
+    {
+        OnPlayerDeath?.Invoke();
     }
 
     private void ReadMovement(InputAction.CallbackContext context)
     {
         movementDirection = context.ReadValue<Vector2>();
-        Debug.Log(movementDirection);
     }
 
     private void FixedUpdate()

@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 1f;
+    [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private int damage = 1;
 
     private readonly Vector2 movementDirection = Vector2.right;
