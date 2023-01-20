@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int pointsForDestruction = 100;
@@ -26,6 +27,11 @@ public class Enemy : MonoBehaviour
         health.OnHealthDepleted += Die;
     }
 
+    private void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + Time.fixedDeltaTime * movementSpeed * movementDirection);
+    }
+
     private void Die()
     {
         OnEnemyDeath?.Invoke(pointsForDestruction);
@@ -33,11 +39,6 @@ public class Enemy : MonoBehaviour
     }
 
     private void Release() => Disable?.Invoke(this);
-
-    private void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + Time.fixedDeltaTime * movementSpeed * movementDirection);
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -47,8 +48,5 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        GameManager.OnGameOver -= Release;
-    }
+    private void OnDestroy() => GameManager.OnGameOver -= Release;
 }

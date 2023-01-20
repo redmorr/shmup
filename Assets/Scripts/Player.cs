@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private int movementSpeed = 1;
@@ -11,8 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float verticalBounds = 4.5f;
 
     private Rigidbody2D rb;
-    private Vector2 movementDirection;
     private Health health;
+    private Vector2 movementDirection;
 
     public static event Action OnPlayerDeath;
 

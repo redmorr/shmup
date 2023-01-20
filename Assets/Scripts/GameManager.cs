@@ -7,25 +7,21 @@ using UnityEngine.InputSystem.Utilities;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private bool isGameActive = false;
     [SerializeField][Range(1, 360)] private int roundTime = 60;
     [SerializeField] private TextMeshProUGUI timer;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private ScorePresenter scorePresenter;
-
     [SerializeField] private Transform startPosition;
     [SerializeField] private Player player;
 
     private readonly string PressAnyButtonText = "Press Any Button";
-
-    public static event Action OnGameOver;
-
     private Coroutine timerRoutine;
     private int currentRoundTime;
 
+    public static event Action OnGameOver;
+
     private void Awake()
     {
-
         Player.OnPlayerDeath += GameOver;
         InputSystem.onAnyButtonPress.CallOnce(StartGame);
         timer.SetText(PressAnyButtonText);
@@ -34,7 +30,6 @@ public class GameManager : MonoBehaviour
 
     private void StartGame(InputControl _)
     {
-        isGameActive = true;
         currentRoundTime = roundTime;
         enemySpawner.BeginSpawning();
         player.transform.position = startPosition.position;
@@ -59,7 +54,6 @@ public class GameManager : MonoBehaviour
         OnGameOver?.Invoke();
         player.gameObject.SetActive(false);
         enemySpawner.StopSpawning();
-        isGameActive = false;
         InputSystem.onAnyButtonPress.CallOnce(StartGame);
         timer.SetText(PressAnyButtonText);
         scorePresenter.SaveScores();

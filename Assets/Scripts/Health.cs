@@ -5,26 +5,25 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private int initalHealthPoints;
 
-    //public int HP { private set; get; }
-    public int HealthPoints;
+    private int healthPoints;
 
     public event Action OnHealthDepleted;
     public event Action<int> OnHealthChanged;
 
     private void OnEnable()
     {
-        HealthPoints = initalHealthPoints;
-        OnHealthChanged?.Invoke(HealthPoints);
+        healthPoints = initalHealthPoints;
+        OnHealthChanged?.Invoke(healthPoints);
     }
 
     public void DealDamage(int amount)
     {
-        if (HealthPoints > 0)
+        if (healthPoints > 0)
         {
-            HealthPoints -= amount;
-            OnHealthChanged?.Invoke(HealthPoints);
+            healthPoints -= amount;
+            OnHealthChanged?.Invoke(healthPoints);
 
-            if (HealthPoints <= 0)
+            if (healthPoints <= 0)
             {
                 OnHealthDepleted?.Invoke();
             }

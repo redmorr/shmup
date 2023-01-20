@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -8,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private int damage = 1;
+    [SerializeField] private float timeToLive = 3f;
 
     private readonly Vector2 movementDirection = Vector2.right;
     private Rigidbody2D rb;
@@ -15,6 +14,11 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        Destroy(gameObject, timeToLive);
     }
 
     private void FixedUpdate()
