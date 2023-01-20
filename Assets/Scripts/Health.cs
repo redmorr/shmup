@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -17,6 +15,11 @@ public class Health : MonoBehaviour
     public void DealDamage(int amount)
     {
         HealthPoints -= amount;
+
+        if (HealthPoints <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
 }
