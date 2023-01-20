@@ -17,13 +17,23 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        InputManager.Instance.PlayerControls.Player.Move.performed += ReadMovement;
-        InputManager.Instance.PlayerControls.Player.Move.canceled += ReadMovement;
-        
         rb = GetComponent<Rigidbody2D>();
 
         health = GetComponent<Health>();
         health.OnHealthDepleted += Die;
+    }
+
+    private void OnEnable()
+    {
+        InputManager.Instance.PlayerControls.Player.Move.performed += ReadMovement;
+        InputManager.Instance.PlayerControls.Player.Move.canceled += ReadMovement;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.PlayerControls.Player.Move.performed -= ReadMovement;
+        InputManager.Instance.PlayerControls.Player.Move.canceled -= ReadMovement;
+        movementDirection = Vector2.zero;
     }
 
     private void Die()
@@ -34,6 +44,7 @@ public class Player : MonoBehaviour
     private void ReadMovement(InputAction.CallbackContext context)
     {
         movementDirection = context.ReadValue<Vector2>();
+        movementDirection.x = 0f;
     }
 
     private void FixedUpdate()

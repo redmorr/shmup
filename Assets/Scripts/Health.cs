@@ -9,20 +9,25 @@ public class Health : MonoBehaviour
     public int HealthPoints;
 
     public event Action OnHealthDepleted;
+    public event Action<int> OnHealthChanged;
 
-    private void Start()
+    private void OnEnable()
     {
         HealthPoints = initalHealthPoints;
+        OnHealthChanged?.Invoke(HealthPoints);
     }
 
     public void DealDamage(int amount)
     {
-        HealthPoints -= amount;
-
-        if (HealthPoints <= 0)
+        if (HealthPoints > 0)
         {
-            OnHealthDepleted?.Invoke();
+            HealthPoints -= amount;
+            OnHealthChanged?.Invoke(HealthPoints);
+
+            if (HealthPoints <= 0)
+            {
+                OnHealthDepleted?.Invoke();
+            }
         }
     }
-
 }

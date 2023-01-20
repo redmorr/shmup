@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timer;
     [SerializeField] private EnemySpawner enemySpawner;
 
+    [SerializeField] private Transform startPosition;
+    [SerializeField] private Player player;
+
     private readonly string PressAnyButtonText = "Press Any Button";
 
     private Coroutine timerRoutine;
@@ -19,9 +22,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
         Player.OnPlayerDeath += GameOver;
         InputSystem.onAnyButtonPress.CallOnce(StartGame);
         timer.SetText(PressAnyButtonText);
+        player.gameObject.SetActive(false);
     }
 
     private void StartGame(InputControl _)
@@ -29,17 +34,25 @@ public class GameManager : MonoBehaviour
         isGameActive = true;
         currentRoundTime = roundTime;
         enemySpawner.BeginSpawning();
+        player.transform.position = startPosition.position;
+        player.gameObject.SetActive(true);
 
         if (timerRoutine != null)
         {
             StopCoroutine(timerRoutine);
         }
 
-        StartCoroutine(RoundTimerRoutine());
+        timerRoutine = StartCoroutine(RoundTimerRoutine());
     }
 
     private void GameOver()
     {
+        if (timerRoutine != null)
+        {
+            StopCoroutine(timerRoutine);
+        }
+
+        player.gameObject.SetActive(false);
         enemySpawner.StopSpawning();
         isGameActive = false;
         InputSystem.onAnyButtonPress.CallOnce(StartGame);
@@ -48,11 +61,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator RoundTimerRoutine()
     {
-        if (timerRoutine != null)
-        {
-            StopCoroutine(timerRoutine);
-        }
-
         timer.SetText(currentRoundTime.ToString());
         yield return new WaitForSeconds(1f);
 
