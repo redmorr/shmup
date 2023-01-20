@@ -1,18 +1,23 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Enemy enemyPrefab;
+    [SerializeField][Range(0.1f, 4f)] private float spawnInterval;
+    [SerializeField] private int groupMinSize = 2;
+    [SerializeField] private int groupMaxSize = 5;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private bool allowSpawning;
 
-    private readonly int objectPoolMaxCapacity = 200;
-    private readonly int objectPoolDefaultCapacity = 200;
+    private readonly int objectPoolMaxCapacity = 400;
+    private readonly int objectPoolDefaultCapacity = 400;
+    private readonly System.Random random = new System.Random();
     private int spawnCounter = 0;
     private ObjectPool<Enemy> enemyPool;
-
     private Coroutine spawnRoutine;
 
     private void Awake()
@@ -31,9 +36,20 @@ public class EnemySpawner : MonoBehaviour
     {
         while (allowSpawning)
         {
-            yield return new WaitForSeconds(2f);
-            enemyPool.Get();
+            yield return new WaitForSeconds(spawnInterval);
+
+            foreach (Transform spawnPoint in ChooseRandomSpawnPoints())
+            {
+                Enemy enemy = enemyPool.Get();
+                enemy.transform.position = spawnPoint.position;
+                enemy.gameObject.SetActive(true);
+            };
         }
+    }
+
+    private IEnumerable<Transform> ChooseRandomSpawnPoints()
+    {
+        return spawnPoints.OrderBy(x => random.Next()).Take(UnityEngine.Random.Range(groupMinSize, groupMaxSize + 1));
     }
 
     public void BeginSpawning()
@@ -49,23 +65,16 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private Vector3 GetRandomSpawnPoint() => spawnPoints[Random.Range(0, spawnPoints.Length)].position;
-
     private Enemy CreateEnemy()
     {
-        Enemy instance = Instantiate(enemyPrefab, GetRandomSpawnPoint(), Quaternion.identity);
+        Enemy instance = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
         spawnCounter++;
         instance.name = spawnCounter.ToString();
         instance.Disable += ReturnObjectToPool;
-        instance.gameObject.SetActive(false);
         return instance;
     }
 
-    private void OnGetEnemy(Enemy instance)
-    {
-        instance.transform.position = GetRandomSpawnPoint();
-        instance.gameObject.SetActive(true);
-    }
+    private void OnGetEnemy(Enemy instance) { }
 
     private void OnReleaseEnemy(Enemy instance) => instance.gameObject.SetActive(false);
 

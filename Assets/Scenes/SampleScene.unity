@@ -1933,6 +1933,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1135418949293979082, guid: 4e9fa4e733b36e94b83536ffb108c15f, type: 3}
+  spawnInterval: 0.57
+  groupMinSize: 2
+  groupMaxSize: 5
   spawnPoints:
   - {fileID: 985922070}
   - {fileID: 425469056}
