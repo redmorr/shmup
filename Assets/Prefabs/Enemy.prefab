@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1135418949293979079}
+  - component: {fileID: 1135418949293979082}
   - component: {fileID: 1135418949293979076}
   - component: {fileID: 1135418949293979077}
-  - component: {fileID: 1135418949293979082}
   - component: {fileID: 1135418949293979078}
   - component: {fileID: 1135418949293979073}
   m_Layer: 6
@@ -36,6 +36,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1135418949293979082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135418949293979083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5902a21f6708f14faa46cc86a8ee6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointsForDestruction: 100
+  movementSpeed: 1
+  damageOtherOnCollision: 1
 --- !u!212 &1135418949293979076
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -109,20 +124,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1135418949293979082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1135418949293979083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5902a21f6708f14faa46cc86a8ee6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 1
-  damageOtherOnCollision: 1
 --- !u!61 &1135418949293979078
 BoxCollider2D:
   m_ObjectHideFlags: 0

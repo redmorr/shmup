@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -6,6 +7,8 @@ public class Health : MonoBehaviour
 
     //public int HP { private set; get; }
     public int HealthPoints;
+
+    public event Action OnHealthDepleted;
 
     private void Start()
     {
@@ -18,7 +21,7 @@ public class Health : MonoBehaviour
 
         if (HealthPoints <= 0)
         {
-            Destroy(gameObject);
+            OnHealthDepleted?.Invoke();
         }
     }
 
