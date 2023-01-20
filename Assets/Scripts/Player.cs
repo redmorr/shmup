@@ -2,9 +2,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 1f;
+    [SerializeField] private int movementSpeed = 1;
+    [SerializeField] private int damageOtherOnCollision = 1;
 
     private PlayerControls playerControls;
     private Rigidbody2D rb;
@@ -31,4 +33,11 @@ public class Player : MonoBehaviour
         rb.MovePosition(rb.position + Time.fixedDeltaTime * movementSpeed * movementDirection);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Health health))
+        {
+            health.DealDamage(damageOtherOnCollision);
+        }
+    }
 }
