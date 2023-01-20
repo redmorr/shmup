@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField][Range(1, 360)] private int roundTime = 60;
     [SerializeField] private TextMeshProUGUI timer;
     [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private ScorePresenter scorePresenter;
 
     [SerializeField] private Transform startPosition;
     [SerializeField] private Player player;
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
         enemySpawner.BeginSpawning();
         player.transform.position = startPosition.position;
         player.gameObject.SetActive(true);
+        scorePresenter.LoadScores();
+        scorePresenter.ResetCurrentScore();
 
         if (timerRoutine != null)
         {
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         InputSystem.onAnyButtonPress.CallOnce(StartGame);
         timer.SetText(PressAnyButtonText);
+        scorePresenter.SaveScores();
     }
 
     private IEnumerator RoundTimerRoutine()

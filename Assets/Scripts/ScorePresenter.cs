@@ -17,13 +17,7 @@ public class ScorePresenter : MonoBehaviour
     private void OnEnable()
     {
         scoreText.SetText(CurrentPoints.ToString());
-
-        HighScore = PlayerPrefs.GetInt(HighScoreKey);
-        highScoreText.SetText(HighScore.ToString());
-
-        LastScore = PlayerPrefs.GetInt(LastScoreKey);
-        lastScoreText.SetText(LastScore.ToString());
-
+        LoadScores();
         Enemy.OnEnemyDeath += IncreaseScore;
     }
 
@@ -44,9 +38,24 @@ public class ScorePresenter : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void LoadScores()
+    {
+        HighScore = PlayerPrefs.GetInt(HighScoreKey);
+        highScoreText.SetText(HighScore.ToString());
+
+        LastScore = PlayerPrefs.GetInt(LastScoreKey);
+        lastScoreText.SetText(LastScore.ToString());
+    }
+
     private void IncreaseScore(int points)
     {
         CurrentPoints += points;
+        scoreText.SetText(CurrentPoints.ToString());
+    }
+
+    public void ResetCurrentScore()
+    {
+        CurrentPoints = 0;
         scoreText.SetText(CurrentPoints.ToString());
     }
 }
