@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 
     private readonly string PressAnyButtonText = "Press Any Button";
 
+    public static event Action OnGameOver;
+
     private Coroutine timerRoutine;
     private int currentRoundTime;
 
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(timerRoutine);
         }
-
+        OnGameOver?.Invoke();
         player.gameObject.SetActive(false);
         enemySpawner.StopSpawning();
         isGameActive = false;

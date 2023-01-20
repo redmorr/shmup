@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsForDestruction: 100
-  movementSpeed: 5
+  movementSpeed: 4
   damageOtherOnCollision: 1
 --- !u!114 &1135418949293979073
 MonoBehaviour:

@@ -15,10 +15,14 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private Health health;
 
+    public delegate void OnDisableCallback(Enemy Instance);
+    public OnDisableCallback Disable;
+
     public static event Action<int> OnEnemyDeath;
 
     private void Awake()
     {
+        GameManager.OnGameOver += Release;
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
         health.OnHealthDepleted += Die;
@@ -27,8 +31,10 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         OnEnemyDeath?.Invoke(pointsForDestruction);
-        Destroy(gameObject);
+        Disable?.Invoke(this);
     }
+
+    private void Release() => Disable?.Invoke(this);
 
     private void FixedUpdate()
     {
@@ -41,5 +47,10 @@ public class Enemy : MonoBehaviour
         {
             health.DealDamage(damageOtherOnCollision);
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameOver -= Release;
     }
 }
