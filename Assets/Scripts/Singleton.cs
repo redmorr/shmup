@@ -7,7 +7,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
     {
         get
         {
-            if (instance == null)
+            if ((object)instance == null)
             {
                 instance = (T)FindObjectOfType(typeof(T));
                 if (instance == null)
